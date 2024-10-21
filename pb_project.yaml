@@ -1,0 +1,42 @@
+name: drew_shopify_test
+schema_version: 80
+connection: rudder_snowflake_wh
+model_folders:
+  - models
+entities:
+  - name: shopify_customer
+    id_stitcher: models/id_graph
+    id_column_name: profile_id
+    id_types:
+      - user_id
+      - anonymous_id
+      - email
+    feature_views:
+      name: shopify_customer_all_view # see if the SHOPIFY_CUSTOMER_FEATURE_VIEW went away in
+      using_ids:
+        - id: email
+          name: shopify_customer_by_email
+        - id: user_id
+          name: shopify_customer_by_user_id
+id_types:
+  - name: user_id
+    filters:
+      - type: exclude
+        value: " "
+  - name: anonymous_id
+    filters:
+      - type: exclude
+        value: ""
+        #      - type: exclude
+        #        sql:
+        #          select: anonymous_id
+        #          from: models/anonymous_id_exclusions
+  - name: email
+    filters:
+      - type: exclude
+        value: " "
+      - type: exclude
+        sql:
+          select: email
+          from: models/email_exclusions
+retention_period: 720h0m0s

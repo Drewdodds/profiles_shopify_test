@@ -1,0 +1,215 @@
+models:
+  - name: cart_line_items
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table
+        run_type: discrete
+      single_sql: |
+        {% with CartUpdate = this.DeRef("inputs/CART_UPDATE") %}
+        SELECT to_char(t.value['brand']) AS brand,
+            t.value['discounted_price'] AS discounted_price,
+            to_char(t.value['gift_card']) AS gift_card,
+            t.value['grams'] AS grams,
+            to_char(t.value['id']) AS id,
+            to_char(t.value['key']) AS KEY,
+            t.value['line_price'] AS line_price,
+            t.value['original_line_price'] AS original_line_price,
+            t.value['original_price'] AS original_price,
+            t.value['price'] AS price,
+            to_char(t.value['product_id']) AS product_id,
+            to_char(t.value['properties']) AS properties,
+            t.value['quantity'] AS quantity,
+            to_char(t.value['sku']) AS sku,
+            to_char(t.value['taxable']) AS taxable,
+            to_char(t.value['title']) AS title,
+            t.value['total_discount'] AS total_discount,
+            to_char(t.value['variant']) AS _VARIANT_,
+            products,
+            anonymous_id,timestamp,
+            token
+        FROM
+        (SELECT *
+        FROM
+            (SELECT *,
+                    row_number() over(PARTITION BY anonymous_id, token
+                                                ORDER BY timestamp DESC) AS rn
+            FROM {{CartUpdate}} where products is not null)
+        WHERE rn = 1), table(flatten(parse_json(products))) t
+                {% endwith %}
+      ids:
+        - select: "anonymous_id"
+          type: anonymous_id
+          entity: shopify_customer
+      contract:
+        is_optional: false
+        is_event_stream: false
+        with_entity_ids:
+          - shopify_customer
+        with_columns:
+          - name: anonymous_id
+  - name: order_checkout_union
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: ephemeral
+        run_type: discrete
+      single_sql: |
+        select ANONYMOUS_ID,
+               NOTE_ATTRIBUTES,
+               email,
+               USER_ID,
+               ORIGINAL_TIMESTAMP,
+               flat_1.VALUE::string as rudderAnonymousId
+            from DREW_DB.SHOPIFY_TEST.ORDER_CREATED,
+                 lateral flatten (input=> get(parse_json(NOTE_ATTRIBUTES),0)) as flat_1
+        where flat_1.VALUE::string <> 'rudderAnonymousId'
+        union
+        select ANONYMOUS_ID,
+               NOTE_ATTRIBUTES,
+               email,
+               USER_ID,
+               ORIGINAL_TIMESTAMP,
+               flat_1.VALUE::string as rudderAnonymousId
+            from DREW_DB.SHOPIFY_TEST.ORDER_UPDATED,
+                 lateral flatten (input=> get(parse_json(NOTE_ATTRIBUTES),0)) as flat_1
+        where flat_1.VALUE::string <> 'rudderAnonymousId'
+        union
+        select ANONYMOUS_ID,
+               NOTE_ATTRIBUTES,
+               email,
+               USER_ID,
+               ORIGINAL_TIMESTAMP,
+               flat_1.VALUE::string as rudderAnonymousId
+            from DREW_DB.SHOPIFY_TEST.ORDER_PAID,
+                 lateral flatten (input=> get(parse_json(NOTE_ATTRIBUTES),0)) as flat_1
+        where flat_1.VALUE::string <> 'rudderAnonymousId'
+        union
+        select ANONYMOUS_ID,
+               NOTE_ATTRIBUTES,
+               email,
+               USER_ID,
+               ORIGINAL_TIMESTAMP,
+               flat_1.VALUE::string as rudderAnonymousId
+            from DREW_DB.SHOPIFY_TEST.CHECKOUT_UPDATED,
+                 lateral flatten (input=> get(parse_json(NOTE_ATTRIBUTES),0)) as flat_1
+        where flat_1.VALUE::string <> 'rudderAnonymousId'
+      ids:
+        - select: USER_ID
+          type: user_id
+          entity: shopify_customer
+        - select: ANONYMOUS_ID
+          type: anonymous_id
+          entity: shopify_customer
+        - select: lower(email)
+          type: email
+          entity: shopify_customer
+      contract:
+        is_optional: false
+        is_event_stream: true
+        with_entity_ids:
+          - shopify_customer
+        with_columns:
+          - name: user_id
+          - name: anonymous_id
+          - name: email
+  - name: email_exclusions #test model here
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: ephemeral
+        run_type: discrete
+      single_sql: |
+        select email from drew_db.rs_profiles.email_exclusions
+  - name: sql_ref_feature_view #test model here
+    #      ids:
+    #        - select: email
+    #          type: email
+    #          entity: shopify_customer
+
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: view
+        run_type: discrete
+      single_sql: |
+        select email from drew_db.rs_profiles.email_exclusions
+      ids:
+        - select: email
+          type: email
+          entity: shopify_customer
+
+    # droped the anon_id exclusion table for testing
+    #  - name: anonymous_id_exclusions
+    #    model_type: sql_template
+    #    model_spec:
+    #      validity_time: 24h # 1 day
+    #      materialization:
+    #        output_type: ephemeral
+    #        run_type: discrete
+    #      single_sql: |
+    #        select anonymous_id from DREW_DB.RS_PROFILES.anonymous_id_exclusions
+
+  - name: cart_line_items_test
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table
+        run_type: discrete
+      single_sql: |
+        {% with cart = this.DeRef("models/cart_line_items") %}
+               ,t1 as (
+                        select ANONYMOUS_ID,
+                                price
+                        from {{cart}}
+                )
+
+              select *,
+              round((price *0.8),2) as disc_price
+              from t1
+        {% endwith %}
+      ids:
+        - select: "anonymous_id"
+          type: anonymous_id
+          entity: shopify_customer
+      contract:
+        is_optional: false
+        is_event_stream: false
+        with_entity_ids:
+          - shopify_customer
+        with_columns:
+          - name: anonymous_id
+
+  - name: cohort_memborship
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table
+        run_type: discrete
+      single_sql: |
+        {% with hv_users = this.DeRef("models/high_value_customers") lv_users = this.DeRef("models/low_value_customers") %}
+               ,t1 as (
+                        select PROFILE_ID,
+                               'hv_users' as cohort_tag
+                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                      where exists(select 1 from {{hv_users}} b where a.profile_id = b.PROFILE_ID)
+                union all
+                select PROFILE_ID,
+                               'lv_users' as cohort_tag
+                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                      where exists(select 1 from {{lv_users}} b where a.profile_id = b.PROFILE_ID)
+                union all
+                        select PROFILE_ID,
+                               'all_users' as cohort_tag
+                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                
+                ) 
+
+              select PROFILE_ID,
+              cohort_tag as cohort_tags
+              from t1
+        {% endwith %}
+      ids:
+        - select: profile_id
+          type: rudder_id
+          entity: shopify_customer
