@@ -180,7 +180,7 @@ models:
         with_columns:
           - name: anonymous_id
 
-  - name: cohort_memborship
+  - name: cohort_membership
     model_type: sql_template
     model_spec:
       materialization:
@@ -190,6 +190,10 @@ models:
         {% with hv_users = this.DeRef("models/high_value_customers") lv_users = this.DeRef("models/low_value_customers") %}
                ,t1 as (
                         select PROFILE_ID,
+                               'all_users' as cohort_tag
+                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                union all
+                        select PROFILE_ID,
                                'hv_users' as cohort_tag
                           from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
                       where exists(select 1 from {{hv_users}} b where a.profile_id = b.PROFILE_ID)
@@ -198,11 +202,7 @@ models:
                                'lv_users' as cohort_tag
                           from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
                       where exists(select 1 from {{lv_users}} b where a.profile_id = b.PROFILE_ID)
-                union all
-                        select PROFILE_ID,
-                               'all_users' as cohort_tag
-                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
-                
+               
                 ) 
 
               select PROFILE_ID,

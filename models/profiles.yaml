@@ -192,7 +192,7 @@ var_groups: #prev run did not add features to feature views or using id view
       - entity_var:
           name: cohort_tag
           select: listagg(cohort_tags,',')
-          from: models/cohort_presence
+          from: models/cohort_membership
           description: cohort tag
 
 ## don not uncomment
