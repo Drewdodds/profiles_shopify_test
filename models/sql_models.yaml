@@ -187,20 +187,20 @@ models:
         output_type: table
         run_type: discrete
       single_sql: |
-        {% with hv_users = this.DeRef("models/high_value_customers") lv_users = this.DeRef("models/low_value_customers") %}
+        {% with hv_users = this.DeRef("models/high_value_customers") lv_users = this.DeRef("models/low_value_customers") all_users = this.DeRef("shopify_customer/ALL")%}
                ,t1 as (
                         select PROFILE_ID,
                                'all_users' as cohort_tag
-                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                          from {{all_users}} a
                 union all
                         select PROFILE_ID,
                                'hv_users' as cohort_tag
-                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                          from {{all_users}} a
                       where exists(select 1 from {{hv_users}} b where a.profile_id = b.PROFILE_ID)
                 union all
                 select PROFILE_ID,
                                'lv_users' as cohort_tag
-                          from DREW_DB.RS_PROFILES.SHOPIFY_CUSTOMER_ALL_VIEW a
+                          from {{all_users}} a
                       where exists(select 1 from {{lv_users}} b where a.profile_id = b.PROFILE_ID)
                
                 ) 

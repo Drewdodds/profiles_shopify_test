@@ -191,9 +191,34 @@ var_groups: #prev run did not add features to feature views or using id view
           description: a tag that someone exist in this input
       - entity_var:
           name: cohort_tag
-          select: listagg(cohort_tags,',')
+          select: array_agg(cohort_tags)
           from: models/cohort_membership
           description: cohort tag
+      - entity_var:
+          name: first_seen_pages
+          select: min(original_timestamp)
+          from: inputs/PAGES
+          is_feature: false
+      - entity_var:
+          name: first_seen_tracks
+          select: min(original_timestamp)
+          from: inputs/TRACKS
+          is_feature: false
+      - entity_var:
+          name: first_seen_identifies
+          select: min(original_timestamp)
+          from: inputs/IDENTIFIES
+          is_feature: false
+
+      - entity_var:
+          name: first_seen_across_all_sources
+          select: |
+            LEAST_IGNORE_NULLS(
+             {{shopify_customer.first_seen_pages}},
+             {{shopify_customer.first_seen_tracks}},
+             {{shopify_customer.first_seen_identifies}}
+              )
+
 
 ## don not uncomment
 ## - example features pulled feature from here: https://github.com/rudderlabs/profiles-shopify-features/blob/main/models/profiles.yaml
