@@ -213,3 +213,61 @@ models:
         - select: profile_id
           type: rudder_id
           entity: shopify_customer
+
+  - name: dim_user_features_sql_model
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table # view can also be used
+        run_type: discrete
+      single_sql: |
+        {% with dim_users = this.DeRef("inputs/user_dim")  %}
+            select email as email_from_user_dim,
+                   address_id,
+                   timestamp
+            from {{dim_users}}
+        {% endwith %}
+      ids:
+        - select: email_from_user_dim
+          type: email
+          entity: shopify_customer
+#        - select: "user_main_id"
+#          type: rudder_id
+#          entity: user
+      features:
+        - name: email_from_user_dim
+        - name: address_id
+
+  - name: tracks_union_pages
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table
+        run_type: discrete
+      single_sql: |
+        {% with tracks = this.DeRef("inputs/tracks")  pages = this.DeRef("inputs/pages")  %}
+                    select ANONYMOUS_ID,
+                           timestamp
+                    from {{tracks}}
+                union all
+                    select ANONYMOUS_ID,
+                           timestamp
+                   from {{pages}}
+        {% endwith %}
+      ids:
+        - select: ANONYMOUS_ID
+          type: anonymous_id
+          entity: shopify_customer
+
+  - name: read_sql_model_test
+    model_type: sql_template
+    model_spec:
+      materialization:
+        output_type: table
+        run_type: discrete
+      single_sql: "{%exec%} {{ this.ReadFile('models/test_sql_file.sql') }} {%endexec%}"
+      occurred_at_col: timestamp
+      ids:
+        - select: EMAIL
+          type: email
+          entity: shopify_customer

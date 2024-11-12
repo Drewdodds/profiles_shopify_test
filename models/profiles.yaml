@@ -21,6 +21,7 @@ models:
         - from: inputs/USERS
         - from: inputs/PRODUCT_ADDED
         - from: inputs/PRODUCT_VIEWED
+        - from: models/tracks_union_pages
   - name: user_profile
     model_type: feature_table_model
     model_spec:
@@ -66,6 +67,16 @@ models:
       filter_pipeline:
         - type: include
           value: "{{shopify_customer.Var('total_gross_spent')}} < 1000"
+
+  - name: lower_value_no_email # test deriving a cohort from a cohort
+    model_type: entity_cohort
+    model_spec:
+      extends: models/low_value_customers
+      materialization:
+        output_type: table
+      filter_pipeline:
+        - type: include
+          value: "{{shopify_customer.shopify_customer_email}} is null"
 
 #### Testing AND & OR filter logic for creating a cohort
 
@@ -123,6 +134,12 @@ var_groups: #prev run did not add features to feature views or using id view
           from: inputs/IDENTIFIES
           where: first_name is not null and first_name!=''
           description: first name per shopify customer
+
+      - entity_var:
+          name: main_id
+          select: PROFILE_ID
+          from: models/id_graph
+
       - entity_var:
           name: last_seen_date
           select: max(timestamp::date)
@@ -229,7 +246,7 @@ var_groups: #prev run did not add features to feature views or using id view
           name: cohort_tag
           select: array_agg(cohort_tags)
           from: models/cohort_membership
-          description: cohort tag
+          description: This feature outputs an array of tags that represent what cohort each user is in
       - entity_var:
           name: first_seen_pages
           select: min(original_timestamp)
