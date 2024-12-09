@@ -147,7 +147,6 @@ inputs: #test
         - select: anonymous_id
           type: anonymous_id
           entity: shopify_customer
-
   - name: user_dim
     app_defaults:
       table: DREW_DB.SHOPIFY_TEST.USER_DIM

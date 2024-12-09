@@ -1,5 +1,5 @@
 name: shopify_testing
-schema_version: 80
+schema_version: 84
 connection: rudder_snowflake_wh
 model_folders:
   - models

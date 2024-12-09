@@ -57,7 +57,6 @@ models:
         using_ids:
           - id: email
             name: hv_users_by_email
-
   - name: low_value_customers
     model_type: entity_cohort
     model_spec:
@@ -67,7 +66,6 @@ models:
       filter_pipeline:
         - type: include
           value: "{{shopify_customer.Var('total_gross_spent')}} < 1000"
-
   - name: lower_value_no_email # test deriving a cohort from a cohort
     model_type: entity_cohort
     model_spec:
@@ -77,9 +75,7 @@ models:
       filter_pipeline:
         - type: include
           value: "{{shopify_customer.shopify_customer_email}} is null"
-
-#### Testing AND & OR filter logic for creating a cohort
-
+          #### Testing AND & OR filter logic for creating a cohort
   - name: retargeting_campaign_1
     model_type: entity_cohort
     model_spec:
@@ -88,9 +84,8 @@ models:
         output_type: table
       filter_expression:
         OR:
-            - '{{shopify_customer.num_days_since_last_purchase_with_macro}} >= 263'
-            - '{{shopify_customer.total_gross_spent}} <= 800'
-
+          - '{{shopify_customer.num_days_since_last_purchase_with_macro}} >= 263'
+          - '{{shopify_customer.total_gross_spent}} <= 800'
   - name: retargeting_campaign_2
     model_type: entity_cohort
     model_spec:
@@ -100,11 +95,11 @@ models:
       filter_expression:
         OR:
           - AND:
-                 - '{{shopify_customer.num_days_since_last_purchase_with_macro}} >= 263'
-                 - '{{shopify_customer.total_gross_spent}} <= 800'
+              - '{{shopify_customer.num_days_since_last_purchase_with_macro}} >= 263'
+              - '{{shopify_customer.total_gross_spent}} <= 800'
           - AND:
-                 - '{{shopify_customer.num_days_since_last_purchase_with_macro}} <= 105'
-                 - '{{shopify_customer.total_gross_spent}} >= 5000'
+              - '{{shopify_customer.num_days_since_last_purchase_with_macro}} <= 105'
+              - '{{shopify_customer.total_gross_spent}} >= 5000'
 #OR:
 #   - AND:
 #         - LTV > 500
@@ -134,12 +129,10 @@ var_groups: #prev run did not add features to feature views or using id view
           from: inputs/IDENTIFIES
           where: first_name is not null and first_name!=''
           description: first name per shopify customer
-
       - entity_var:
           name: main_id
           select: PROFILE_ID
           from: models/id_graph
-
       - entity_var:
           name: last_seen_date
           select: max(timestamp::date)
@@ -262,7 +255,6 @@ var_groups: #prev run did not add features to feature views or using id view
           select: min(original_timestamp)
           from: inputs/IDENTIFIES
           is_feature: false
-
       - entity_var:
           name: first_seen_across_all_sources
           select: |
@@ -271,7 +263,9 @@ var_groups: #prev run did not add features to feature views or using id view
              {{shopify_customer.first_seen_tracks}},
              {{shopify_customer.first_seen_identifies}}
               )
-
+      - entity_var:
+          name: current_time_test
+          select: current_timestamp
 
 ## don not uncomment
 ## - example features pulled feature from here: https://github.com/rudderlabs/profiles-shopify-features/blob/main/models/profiles.yaml

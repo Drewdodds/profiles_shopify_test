@@ -138,18 +138,16 @@ models:
         - select: email
           type: email
           entity: shopify_customer
-
-    # droped the anon_id exclusion table for testing
-    #  - name: anonymous_id_exclusions
-    #    model_type: sql_template
-    #    model_spec:
-    #      validity_time: 24h # 1 day
-    #      materialization:
-    #        output_type: ephemeral
-    #        run_type: discrete
-    #      single_sql: |
-    #        select anonymous_id from DREW_DB.RS_PROFILES.anonymous_id_exclusions
-
+          # droped the anon_id exclusion table for testing
+          #  - name: anonymous_id_exclusions
+          #    model_type: sql_template
+          #    model_spec:
+          #      validity_time: 24h # 1 day
+          #      materialization:
+          #        output_type: ephemeral
+          #        run_type: discrete
+          #      single_sql: |
+          #        select anonymous_id from DREW_DB.RS_PROFILES.anonymous_id_exclusions
   - name: cart_line_items_test
     model_type: sql_template
     model_spec:
@@ -179,7 +177,6 @@ models:
           - shopify_customer
         with_columns:
           - name: anonymous_id
-
   - name: cohort_membership
     model_type: sql_template
     model_spec:
@@ -202,8 +199,8 @@ models:
                                'lv_users' as cohort_tag
                           from {{all_users}} a
                       where exists(select 1 from {{lv_users}} b where a.profile_id = b.PROFILE_ID)
-               
-                ) 
+
+                )
 
               select PROFILE_ID,
               cohort_tag as cohort_tags
@@ -213,7 +210,6 @@ models:
         - select: profile_id
           type: rudder_id
           entity: shopify_customer
-
   - name: dim_user_features_sql_model
     model_type: sql_template
     model_spec:
@@ -231,13 +227,12 @@ models:
         - select: email_from_user_dim
           type: email
           entity: shopify_customer
-#        - select: "user_main_id"
-#          type: rudder_id
-#          entity: user
+          #        - select: "user_main_id"
+          #          type: rudder_id
+          #          entity: user
       features:
         - name: email_from_user_dim
         - name: address_id
-
   - name: tracks_union_pages
     model_type: sql_template
     model_spec:
@@ -258,7 +253,6 @@ models:
         - select: ANONYMOUS_ID
           type: anonymous_id
           entity: shopify_customer
-
   - name: read_sql_model_test
     model_type: sql_template
     model_spec:
