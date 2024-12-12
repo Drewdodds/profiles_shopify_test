@@ -1,6 +1,6 @@
 name: shopify_testing
 schema_version: 84
-connection: rudder_snowflake_wh # test 2
+connection: rudder_snowflake_wh # test 3
 model_folders:
   - models
 entities:
