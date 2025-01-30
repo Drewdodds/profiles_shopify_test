@@ -5,7 +5,7 @@ models:
     model_spec:
       entity_key: shopify_customer
       materialization:
-        run_type: discrete
+        run_type: incremental
       edge_sources:
         - from: inputs/CART_UPDATE
         - from: inputs/CHECKOUT_UPDATED
@@ -100,13 +100,7 @@ models:
           - AND:
               - '{{shopify_customer.num_days_since_last_purchase_with_macro}} <= 105'
               - '{{shopify_customer.total_gross_spent}} >= 5000'
-#OR:
-#   - AND:
-#         - LTV > 500
-#         - country = usa
-#   - AND:
-#         - LTV > 500
-#         - country = spain
+
 
 var_groups: #prev run did not add features to feature views or using id view
   - name: hv_vars

@@ -1,6 +1,6 @@
 name: shopify_testing
-schema_version: 84
-connection: rudder_snowflake_wh # test 3
+schema_version: 85
+connection: shopify_test_site # test 3
 model_folders:
   - models
 entities:
@@ -35,6 +35,8 @@ id_types:
     filters:
       - type: exclude
         value: " "
+      - type: exclude
+        value: "test@email.com"
       - type: exclude
         sql:
           select: email
