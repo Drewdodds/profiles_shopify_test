@@ -189,13 +189,17 @@ models:
                         select PROFILE_ID,
                                'all_users' as cohort_tag
                           from {{all_users}} a
+                
                 union all
+                
                         select PROFILE_ID,
                                'hv_users' as cohort_tag
                           from {{all_users}} a
                       where exists(select 1 from {{hv_users}} b where a.profile_id = b.PROFILE_ID)
+                
                 union all
-                select PROFILE_ID,
+                        
+                        select PROFILE_ID,
                                'lv_users' as cohort_tag
                           from {{all_users}} a
                       where exists(select 1 from {{lv_users}} b where a.profile_id = b.PROFILE_ID)

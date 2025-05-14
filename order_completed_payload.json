@@ -1,0 +1,395 @@
+{
+    "anonymousId": "490451a2-6a61-47bc-89ed-160956685c32",
+    "context": {
+        "cart_token": "Z2NwLXVzLWNlbnRyYWwxOjAxSlBTWDJaOUpOUVlDNlpOQUpTUDVQRVky",
+        "checkout_token": "ac1ceb913b73514c7118978f125d288a",
+        "integration": {
+            "name": "SHOPIFY"
+        },
+        "library": {
+            "name": "RudderStack Shopify Cloud",
+            "version": "1.0.0"
+        },
+        "sessionId": "1742478605101",
+        "topic": "orders_create"
+    },
+    "event": "Order Created",
+    "integrations": {
+        "SHOPIFY": true
+    },
+    "messageId": "5c4fc61f-c6ff-47b7-844a-642c10927fb4",
+    "properties": {
+        "admin_graphql_api_id": "gid://shopify/Order/5944404901976",
+        "app_id": 580111,
+        "browser_ip": "2600:6c5e:3000:3743:118d:3831:4bb2:ef46",
+        "buyer_accepts_marketing": false,
+        "cart_token": "Z2NwLXVzLWNlbnRyYWwxOjAxSlBTWDJaOUpOUVlDNlpOQUpTUDVQRVky",
+        "checkout_id": 40451599827032,
+        "checkout_token": "ac1ceb913b73514c7118978f125d288a",
+        "client_details": {
+            "accept_language": "en-US",
+            "browser_height": null,
+            "browser_ip": "2600:6c5e:3000:3743:118d:3831:4bb2:ef46",
+            "browser_width": null,
+            "session_hash": null,
+            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+        },
+        "confirmation_number": "E79TM4CQU",
+        "confirmed": true,
+        "contact_email": "drew@testemail.com",
+        "created_at": "2025-03-20T09:52:40-04:00",
+        "currency": "USD",
+        "current_subtotal_price": "1229.95",
+        "current_subtotal_price_set": {
+            "presentment_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            }
+        },
+        "current_total_discounts": "0.00",
+        "current_total_discounts_set": {
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "current_total_price": "1229.95",
+        "current_total_price_set": {
+            "presentment_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            }
+        },
+        "current_total_tax": "0.00",
+        "current_total_tax_set": {
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "customer_locale": "en-US",
+        "discount_applications": [],
+        "discount_codes": [],
+        "email": "drew@testemail.com",
+        "estimated_taxes": false,
+        "financial_status": "paid",
+        "fulfillments": [],
+        "landing_site": "/password",
+        "name": "#1030",
+        "note_attributes": [
+            {
+                "name": "rudderAnonymousId",
+                "value": "490451a2-6a61-47bc-89ed-160956685c32"
+            },
+            {
+                "name": "rudderSessionId",
+                "value": "1742478605101"
+            }
+        ],
+        "number": 30,
+        "order_id": 5944404901976,
+        "order_number": 1030,
+        "order_status_url": "https://rudderstack-drew.myshopify.com/57453314136/orders/fdebb29470a6954bb95195af8b45f9f4/authenticate?key=1fb366073c0c895e39d0a7c0bf011aef",
+        "payment_gateway_names": [
+            "bogus"
+        ],
+        "presentment_currency": "USD",
+        "processed_at": "2025-03-20T09:52:39-04:00",
+        "products": [
+            {
+                "admin_graphql_api_id": "gid://shopify/LineItem/14218972037208",
+                "attributed_staffs": [],
+                "brand": "Multi-managed Vendor",
+                "current_quantity": 1,
+                "discount_allocations": [],
+                "duties": [],
+                "fulfillable_quantity": 1,
+                "fulfillment_service": "manual",
+                "fulfillment_status": null,
+                "gift_card": false,
+                "grams": 0,
+                "id": 14218972037208,
+                "price": "629.95",
+                "price_set": {
+                    "presentment_money": {
+                        "amount": "629.95",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "629.95",
+                        "currency_code": "USD"
+                    }
+                },
+                "product_exists": true,
+                "product_id": 7544701124696,
+                "properties": [],
+                "quantity": 1,
+                "requires_shipping": true,
+                "sku": "sku-managed-1",
+                "tax_lines": [],
+                "taxable": true,
+                "title": "The Multi-managed Snowboard",
+                "total_discount": "0.00",
+                "total_discount_set": {
+                    "presentment_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "variant": "40987081539672  ",
+                "variant_inventory_management": "shopify"
+            },
+            {
+                "admin_graphql_api_id": "gid://shopify/LineItem/14218972069976",
+                "attributed_staffs": [],
+                "brand": "Hydrogen Vendor",
+                "current_quantity": 1,
+                "discount_allocations": [],
+                "duties": [],
+                "fulfillable_quantity": 1,
+                "fulfillment_service": "manual",
+                "fulfillment_status": null,
+                "gift_card": false,
+                "grams": 0,
+                "id": 14218972069976,
+                "price": "600.00",
+                "price_set": {
+                    "presentment_money": {
+                        "amount": "600.00",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "600.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "product_exists": true,
+                "product_id": 7544700862552,
+                "properties": [],
+                "quantity": 1,
+                "requires_shipping": true,
+                "tax_lines": [],
+                "taxable": true,
+                "title": "The Collection Snowboard: Hydrogen",
+                "total_discount": "0.00",
+                "total_discount_set": {
+                    "presentment_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "variant": "40987081048152  ",
+                "variant_inventory_management": "shopify"
+            }
+        ],
+        "referring_site": "",
+        "refunds": [],
+        "shipping_lines": [
+            {
+                "carrier_identifier": null,
+                "code": "Economy",
+                "discount_allocations": [],
+                "discounted_price": "0.00",
+                "discounted_price_set": {
+                    "presentment_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "id": 5007384510552,
+                "is_removed": false,
+                "phone": null,
+                "price": "0.00",
+                "price_set": {
+                    "presentment_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    },
+                    "shop_money": {
+                        "amount": "0.00",
+                        "currency_code": "USD"
+                    }
+                },
+                "requested_fulfillment_service_id": null,
+                "source": "shopify",
+                "tax_lines": [],
+                "title": "Economy"
+            }
+        ],
+        "source_name": "web",
+        "subtotal_price": "1229.95",
+        "subtotal_price_set": {
+            "presentment_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            }
+        },
+        "tags": "",
+        "tax": "0.00",
+        "tax_exempt": false,
+        "tax_lines": [],
+        "taxes_included": false,
+        "test": true,
+        "token": "fdebb29470a6954bb95195af8b45f9f4",
+        "total_discounts": "0.00",
+        "total_discounts_set": {
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_line_items_price": "1229.95",
+        "total_line_items_price_set": {
+            "presentment_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            }
+        },
+        "total_outstanding": "0.00",
+        "total_price_set": {
+            "presentment_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "1229.95",
+                "currency_code": "USD"
+            }
+        },
+        "total_shipping_price_set": {
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_tax_set": {
+            "presentment_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            },
+            "shop_money": {
+                "amount": "0.00",
+                "currency_code": "USD"
+            }
+        },
+        "total_tip_received": "0.00",
+        "total_weight": 0,
+        "updated_at": "2025-03-20T09:52:41-04:00",
+        "value": "1229.95"
+    },
+    "receivedAt": "2025-03-20T13:52:43.379Z",
+    "request_ip": "34.173.109.177",
+    "rudderId": "0f105528-d8d8-4b05-8ede-d369bf6de4cb",
+    "timestamp": "2025-03-20T13:52:41.000Z",
+    "traits": {
+        "address": {
+            "address1": "210 E Coffee St",
+            "address2": null,
+            "city": "Greenville",
+            "company": null,
+            "country": "United States",
+            "country_code": "US",
+            "country_name": "United States",
+            "customer_id": 6946795257944,
+            "default": true,
+            "first_name": "drew",
+            "id": 8570521780312,
+            "last_name": "dodds",
+            "name": "drew dodds",
+            "phone": null,
+            "province": "South Carolina",
+            "province_code": "SC",
+            "zip": "29601"
+        },
+        "adminGraphqlApiId": "gid://shopify/Customer/6946795257944",
+        "billingAddress": {
+            "address1": "210 E Coffee St",
+            "address2": null,
+            "city": "Greenville",
+            "company": null,
+            "country": "United States",
+            "country_code": "US",
+            "first_name": "Drew",
+            "last_name": "Dodds",
+            "latitude": 34.8507371,
+            "longitude": -82.3965625,
+            "name": "Drew Dodds",
+            "phone": null,
+            "province": "South Carolina",
+            "province_code": "SC",
+            "zip": "29601"
+        },
+        "currency": "USD",
+        "email": "drew@testemail.com",
+        "firstName": "Drew",
+        "lastName": "Dodds",
+        "shippingAddress": {
+            "address1": "210 E Coffee St",
+            "address2": null,
+            "city": "Greenville",
+            "company": null,
+            "country": "United States",
+            "country_code": "US",
+            "first_name": "Drew",
+            "last_name": "Dodds",
+            "latitude": null,
+            "longitude": null,
+            "name": "Drew Dodds",
+            "phone": null,
+            "province": "South Carolina",
+            "province_code": "SC",
+            "zip": "29601"
+        },
+        "state": "disabled",
+        "tags": "",
+        "taxExempt": false,
+        "taxExemptions": [],
+        "verifiedEmail": true
+    },
+    "type": "track",
+    "userId": "6946795257944"
+}

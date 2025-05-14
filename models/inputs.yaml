@@ -29,6 +29,7 @@ inputs: #test
         - select: lower(email)
           type: email
           entity: shopify_customer
+    where: EMAIL <> 'test_checkout@test.com'
   - name: ORDER_CREATED
     app_defaults:
       table: DREW_DB.SHOPIFY_TEST.ORDER_CREATED
@@ -154,4 +155,13 @@ inputs: #test
       ids:
         - select: email
           type: email
+          entity: shopify_customer
+
+  - name: main_id_test
+    app_defaults:
+      table: DREW_DB.SHOPIFY_TEST.main_id_test
+      occurred_at_col: timestamp
+      ids:
+        - select: profile_id
+          type: rudder_id
           entity: shopify_customer

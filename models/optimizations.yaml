@@ -1,0 +1,7 @@
+# Add optimizations here
+optimizations:
+#  bundle_entity_vars: true
+#  bundle_entity_vars_strategy: aggressive
+#  bundle_entity_vars_cte_limit: 100
+#  bundle_input_vars: true
+#  main_id_addition_approach: case_based_join

@@ -1,0 +1,47 @@
+[
+  {
+    "admin_graphql_api_id": "gid://shopify/LineItem/13610517594200",
+    "attributed_staffs": [],
+    "brand": "Hydrogen Vendor",
+    "discount_allocations": [],
+    "duties": [],
+    "fulfillable_quantity": 1,
+    "fulfillment_service": "manual",
+    "fulfillment_status": null,
+    "gift_card": false,
+    "grams": 0,
+    "id": 13610517594200,
+    "price": "749.95",
+    "price_set": {
+      "presentment_money": {
+        "amount": "749.95",
+        "currency_code": "USD"
+      },
+      "shop_money": {
+        "amount": "749.95",
+        "currency_code": "USD"
+      }
+    },
+    "product_exists": true,
+    "product_id": 7544701190232,
+    "properties": [],
+    "quantity": 1,
+    "requires_shipping": true,
+    "tax_lines": [],
+    "taxable": true,
+    "title": "The Collection Snowboard: Liquid",
+    "total_discount": "0.00",
+    "total_discount_set": {
+      "presentment_money": {
+        "amount": "0.00",
+        "currency_code": "USD"
+      },
+      "shop_money": {
+        "amount": "0.00",
+        "currency_code": "USD"
+      }
+    },
+    "variant": "40987081605208  ",
+    "variant_inventory_management": "shopify"
+  }
+]

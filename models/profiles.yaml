@@ -100,8 +100,6 @@ models:
           - AND:
               - '{{shopify_customer.num_days_since_last_purchase_with_macro}} <= 105'
               - '{{shopify_customer.total_gross_spent}} >= 5000'
-
-
 var_groups: #prev run did not add features to feature views or using id view
   - name: hv_vars
     entity_cohort: models/high_value_customers
@@ -127,6 +125,11 @@ var_groups: #prev run did not add features to feature views or using id view
           name: main_id
           select: PROFILE_ID
           from: models/id_graph
+      - entity_var:
+          name: anon_ids
+          select: array_agg(other_id)
+          from: models/id_graph
+          where: other_id_type = 'anonymous_id'
       - entity_var:
           name: last_seen_date
           select: max(timestamp::date)
@@ -261,7 +264,11 @@ var_groups: #prev run did not add features to feature views or using id view
           name: current_time_test
           select: current_timestamp
 
-## don not uncomment
+      - entity_var:
+          name: main_id_select_test
+          select: sum(ten_pct_increase_test)
+          from: inputs/main_id_test
+## do not uncomment
 ## - example features pulled feature from here: https://github.com/rudderlabs/profiles-shopify-features/blob/main/models/profiles.yaml
 
 #      - entity_var: # run this first except materialize it as a feature. This is to test how a custom sql model works
