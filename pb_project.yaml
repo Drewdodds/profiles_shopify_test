@@ -1,4 +1,4 @@
-name: shopify_testing
+name: shopify_testing # test commit
 schema_version: 88
 connection: shopify_test_site # test 3
 model_folders:
